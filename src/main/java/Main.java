@@ -9,7 +9,7 @@ public class Main {
         String query = "Select * from `order`";
         MysqlJdbcTemplate jdbcTemplate = new MysqlJdbcTemplate();
 
-        int count = 0;
+        int count = 1;
 
         try {
             ResultSet rs = jdbcTemplate.query(query);
