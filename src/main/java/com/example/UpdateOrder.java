@@ -117,7 +117,7 @@ public class UpdateOrder extends HttpServlet {
 
         MysqlJdbcTemplate jdbcTemplate = new MysqlJdbcTemplate();
         DateTime dateTime = DateTime.now();
-        if (order_status.equals(OrderStatus.SENT.toString()) && departure_date.equals("null")) {
+        if (order_status.equals(OrderStatus.SENT.toString().toLowerCase()) && departure_date.equals("null")) {
             departure_date = "\"" + dateTime.getYear() + "-" + dateTime.getMonthOfYear() + "-" + dateTime.getDayOfMonth() +
                     " " + dateTime.getHourOfDay() + ":" + dateTime.getMinuteOfHour() + ":" + dateTime.getSecondOfMinute() + "\"";
         }
