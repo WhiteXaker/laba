@@ -31,4 +31,12 @@ public class MysqlJdbcTemplate {
     public ResultSet query(String query) throws SQLException {
         return stmt.executeQuery(query);
     }
+
+    public void update(String query) throws SQLException {
+        stmt.executeUpdate(query);
+    }
+
+    public void insert(String query) throws SQLException {
+        stmt.execute(query);
+    }
 }

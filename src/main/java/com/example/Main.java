@@ -21,7 +21,10 @@ public class Main {
 
             // http://localhost:8080/
             context.addServlet(new ServletHolder( new AllData() ),"/");
-
+            context.addServlet(new ServletHolder( new Deletion() ) , "/delete");
+            context.addServlet(new ServletHolder( new ResultDeletion() ), "/result");
+            context.addServlet(new ServletHolder( new AddOrder() ), "/add");
+            context.addServlet(new ServletHolder( new UpdateOrder()) , "/update");
 
             HandlerList handlers = new HandlerList( );
             handlers.setHandlers( new Handler[] { context } );
