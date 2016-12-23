@@ -120,6 +120,8 @@ public class UpdateOrder extends HttpServlet {
         if (order_status.equals(OrderStatus.SENT.toString().toLowerCase()) && departure_date.equals("null")) {
             departure_date = "\"" + dateTime.getYear() + "-" + dateTime.getMonthOfYear() + "-" + dateTime.getDayOfMonth() +
                     " " + dateTime.getHourOfDay() + ":" + dateTime.getMinuteOfHour() + ":" + dateTime.getSecondOfMinute() + "\"";
+        } else if (!departure_date.equals("null")) {
+            departure_date = "\""+departure_date+"\"";
         }
         String sql = "Update `order` set customer =  \"" + customer + "\", item_id = " + item_id +
                 ", order_status = \"" + order_status + "\" , size = " + size + ", price = " + price + " , " +
