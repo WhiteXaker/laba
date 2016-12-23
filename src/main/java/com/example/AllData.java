@@ -27,9 +27,6 @@ public class AllData extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String offset = request.getParameter("offset") != null ? request.getParameter("offset") : "10";
 
-        double value_a = 0;
-        double value_b = 0;
-
         boolean noError = true;
 
         try {
@@ -50,7 +47,7 @@ public class AllData extends HttpServlet {
     }
 
     protected void doSetResult( HttpServletResponse response, String offset ) throws UnsupportedEncodingException, IOException {
-        String header  = "<tr><th>id</th><th>customer_id</th><th>order_date</th>" +
+        String header  = "<tr><th>id</th><th>customer</th><th>order_date</th>" +
                 "<th>item_id</th><th>order_status</th><th>size</th><th>price</th><th>quantity</th>" +
                 "<th>tracking_number</th><th>departure_date</th><th>comment</th>" +
                 "</tr>";
@@ -91,22 +88,6 @@ public class AllData extends HttpServlet {
         response.setContentType("application/json; charset=UTF-8");
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setStatus( HttpServletResponse.SC_OK );
-    }
-
-    protected double functionSum( double a, double b ) {
-        return a + b;
-    }
-
-    protected double functionDif( double a, double b ) {
-        return a - b;
-    }
-
-    protected double functionMul( double a, double b ) {
-        return a * b;
-    }
-
-    protected double functionDiv( double a, double b ) {
-        return a / b;
     }
 
 }
