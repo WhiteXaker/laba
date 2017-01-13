@@ -32,6 +32,7 @@ public class Main {
             context.addServlet(new ServletHolder( new UserDeletion() ) , "/delete_customer");
             context.addServlet(new ServletHolder( new ResultUserDeletion() ), "/result_user");
             context.addServlet(new ServletHolder( new UpdateCustomer()) , "/update_customer");
+            context.addServlet(new ServletHolder( new AllCustomerOrders()) , "/all_customer_orders");
 
             HandlerList handlers = new HandlerList( );
             handlers.setHandlers( new Handler[] { context } );

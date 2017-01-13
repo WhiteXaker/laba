@@ -47,7 +47,7 @@ public class AllUsers extends HttpServlet {
     protected void doSetResult( HttpServletResponse response, String limit ) throws UnsupportedEncodingException, IOException {
         String header  = "<tr><th>customer_id</th><th>fio</th>" +
                 "<th>email</th><th>phone</th><th>address</th>" +
-                "<th></th><th></th>" +
+                "<th></th><th></th><th></th>" +
                 "</tr>";
 
         String sql = "Select * from `customers` limit  " + limit;
@@ -63,6 +63,7 @@ public class AllUsers extends HttpServlet {
                 int id = rs.getInt("customer_id");
                 data += "<td><a href=./delete_customer?id=" + id + ">Удалить</a></td>";
                 data += "<td><a href=./update_customer?id=" + id + ">Редактировать</a></td>";
+                data += "<td><a href=./all_customer_orders?id=" + id + ">Заказы покупателя</a></td>";
                 data += "</tr>";
             }
         } catch (SQLException e) {

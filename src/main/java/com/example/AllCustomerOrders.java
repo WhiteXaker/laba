@@ -5,7 +5,6 @@ package com.example;
  */
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,8 +16,7 @@ import java.sql.SQLException;
 /**
  * Servlet implementation class SrvltCalculator
  */
-@WebServlet("/AllData")
-public class AllData extends HttpServlet {
+public class AllCustomerOrders extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -27,10 +25,14 @@ public class AllData extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String limit = request.getParameter("limit") != null ? request.getParameter("limit") : "100";
 
+        int customer_id = 0;
+
+
         boolean noError = true;
 
         try {
             int offset1 = Integer.parseInt(limit);
+            customer_id = Integer.parseInt(request.getParameter("id"));
         }
         catch ( Exception ex ) {
             noError = false;
@@ -38,7 +40,7 @@ public class AllData extends HttpServlet {
 
 
         if ( noError ) {
-            doSetResult( response, limit );
+            doSetResult( response, limit, customer_id );
             return;
         }
 
@@ -46,14 +48,14 @@ public class AllData extends HttpServlet {
         doSetError( response);
     }
 
-    protected void doSetResult( HttpServletResponse response, String limit ) throws UnsupportedEncodingException, IOException {
+    protected void doSetResult( HttpServletResponse response, String limit, int customer_id ) throws UnsupportedEncodingException, IOException {
         String header  = "<tr><th>id</th><th>customer_id</th><th>order_date</th>" +
                 "<th>item_id</th><th>order_status</th><th>size</th><th>price</th><th>quantity</th>" +
                 "<th>tracking_number</th><th>departure_date</th><th>comment</th>" +
-                "<th></th><th></th>" +
                 "</tr>";
 
-        String sql = "Select * from `order` where order_status != 'Deleted' limit  " + limit;
+        String sql = "Select * from `order` where order_status != 'Deleted' and customer_id = " + customer_id +
+                " limit  " + limit;
         MysqlJdbcTemplate jdbcTemplate = new MysqlJdbcTemplate();
         String data = "";
         try {
@@ -64,8 +66,6 @@ public class AllData extends HttpServlet {
                     data += "<td>" + rs.getString(i) + "</td>";
                 }
                 int id = rs.getInt("order_id");
-                data += "<td><a href=./delete?id=" + id + ">Удалить</a></td>";
-                data += "<td><a href=./update?id=" + id + ">Редактировать</a></td>";
                 data += "</tr>";
             }
         } catch (SQLException e) {
@@ -74,11 +74,10 @@ public class AllData extends HttpServlet {
         }
         String reply = "<html>\n" +
                 "<body>\n" +
-                "    <h1 align=center>Все данные</h1>\n" +
+                "    <h1 align=center>Все заказы покупателя № " + customer_id + "</h1>\n" +
                 "    <table border=2  align=center>\n"  +
                 header + data +
                 "    </table>" +
-                "  <p align=center > <a href=./add>Добавить заказ</a>" +
                 "</body>\n" +
                 "</html>";
         response.getOutputStream().write( reply.getBytes("UTF-8") );

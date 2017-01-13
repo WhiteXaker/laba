@@ -30,7 +30,7 @@ public class UpdateOrder extends HttpServlet {
             rs.next();
             form = "  <form align=center>" +
                     "   <p>order_id</p><p><input name=\"order_id\" value=\"" + rs.getString("order_id") + "\" readonly></p>" +
-                    "   <p>customer</p><p><input name=\"customer\" value=\"" + rs.getString("customer") + "\"></p>" +
+                    "   <p>customer_id</p><p><input name=\"customer_id\" value=\"" + rs.getString("customer_id") + "\"></p>" +
                     "   <p>order_date</p><p><input name=\"order_date\" value=\"" + rs.getString("order_date") + "\" readonly></p>" +
                     "   <p>item_id</p><p><input name=\"item_id\" value=\"" + rs.getString("item_id") + "\"></p>" +
                     "   <p>order_status</p><p><input name=\"order_status\" value=\"" + rs.getString("order_status") + "\"></p>" +
@@ -59,7 +59,7 @@ public class UpdateOrder extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         boolean hasErrors = false;
         int order_id = 0;
-        String customer = "";
+        int customer_id = 0;
         String order_date = "";
         String order_status = "";
         int item_id = 0;
@@ -72,8 +72,8 @@ public class UpdateOrder extends HttpServlet {
         try {
             order_id = Integer.parseInt(req.getParameter("order_id"));
 
-            customer = req.getParameter("customer");
-            if (customer.length() < 1) {
+            customer_id = Integer.parseInt(req.getParameter("customer_id"));
+            if (customer_id < 1) {
                 hasErrors = true;
             }
 
@@ -123,7 +123,7 @@ public class UpdateOrder extends HttpServlet {
         } else if (!departure_date.equals("null")) {
             departure_date = "\""+departure_date+"\"";
         }
-        String sql = "Update `order` set customer =  \"" + customer + "\", item_id = " + item_id +
+        String sql = "Update `order` set customer_id =  \"" + customer_id + "\", item_id = " + item_id +
                 ", order_status = \"" + order_status + "\" , size = " + size + ", price = " + price + " , " +
                 "quantity = " + quantity +  ", " + "tracking_number = " + tracking_number + ", departure_date = " +
                 departure_date + ",  comment = \"" + comment + "\" where order_id = " + order_id;

@@ -17,7 +17,7 @@ public class AddOrder extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String form = "  <form align=center>" +
-                "   <p><input name=\"customer\" placeholder=\"customer\"></p>" +
+                "   <p><input name=\"customer_id\" placeholder=\"customer_id\"></p>" +
                 "   <p><input name=\"item_id\" placeholder=\"item_id\" min=0></p>" +
                 "   <p><input name=\"size\" placeholder=\"size\" min=0></p>" +
                 "   <p><input name=\"price\" placeholder=\"price\" min=0></p>" +
@@ -37,15 +37,15 @@ public class AddOrder extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         boolean hasErrors = false;
-        String customer = "";
+        int customer_id = 0;
         int item_id = 0;
         int size = 0;
         double price = 0;
         int quantity = 0;
         String comment = "";
         try {
-            customer = req.getParameter("customer");
-            if (customer.length() < 1) {
+            customer_id = Integer.parseInt(req.getParameter("customer_id"));
+            if (customer_id < 1) {
                 hasErrors = true;
             }
 
@@ -83,8 +83,8 @@ public class AddOrder extends HttpServlet {
         DateTime dateTime = DateTime.now();
         String order_date = "" + dateTime.getYear() + "-" + dateTime.getMonthOfYear() + "-" + dateTime.getDayOfMonth() +
                 " " + dateTime.getHourOfDay() + ":" + dateTime.getMinuteOfHour() + ":" + dateTime.getSecondOfMinute();
-        String sql = "Insert into `order` (customer, order_date, item_id, order_status, size, price, quantity, comment)" +
-                " values (\"" + customer + "\", \"" + order_date + "\", " + item_id + ", \"" + OrderStatus.ACCEPTED + "\", " +
+        String sql = "Insert into `order` (customer_id, order_date, item_id, order_status, size, price, quantity, comment)" +
+                " values (\"" + customer_id + "\", \"" + order_date + "\", " + item_id + ", \"" + OrderStatus.ACCEPTED + "\", " +
                 size + ", " + price + ", " + quantity + ", \"" + comment + "\")";
         try {
             jdbcTemplate.insert(sql);
