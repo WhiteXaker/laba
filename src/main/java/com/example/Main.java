@@ -26,6 +26,13 @@ public class Main {
             context.addServlet(new ServletHolder( new AddOrder() ), "/add");
             context.addServlet(new ServletHolder( new UpdateOrder()) , "/update");
 
+            //users
+            context.addServlet(new ServletHolder( new AllUsers() ),"/customers");
+            context.addServlet(new ServletHolder( new AddUser() ),"/add_customer");
+            context.addServlet(new ServletHolder( new UserDeletion() ) , "/delete_customer");
+            context.addServlet(new ServletHolder( new ResultUserDeletion() ), "/result_user");
+            context.addServlet(new ServletHolder( new UpdateCustomer()) , "/update_customer");
+
             HandlerList handlers = new HandlerList( );
             handlers.setHandlers( new Handler[] { context } );
             server.setHandler( handlers );

@@ -5,7 +5,6 @@ package com.example;
  */
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,8 +16,7 @@ import java.sql.SQLException;
 /**
  * Servlet implementation class SrvltCalculator
  */
-@WebServlet("/AllData")
-public class AllData extends HttpServlet {
+public class AllUsers extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -47,25 +45,24 @@ public class AllData extends HttpServlet {
     }
 
     protected void doSetResult( HttpServletResponse response, String limit ) throws UnsupportedEncodingException, IOException {
-        String header  = "<tr><th>id</th><th>customer</th><th>order_date</th>" +
-                "<th>item_id</th><th>order_status</th><th>size</th><th>price</th><th>quantity</th>" +
-                "<th>tracking_number</th><th>departure_date</th><th>comment</th>" +
+        String header  = "<tr><th>customer_id</th><th>fio</th>" +
+                "<th>email</th><th>phone</th><th>address</th>" +
                 "<th></th><th></th>" +
                 "</tr>";
 
-        String sql = "Select * from `order` where order_status != 'Deleted' limit  " + limit;
+        String sql = "Select * from `customers` limit  " + limit;
         MysqlJdbcTemplate jdbcTemplate = new MysqlJdbcTemplate();
         String data = "";
         try {
             ResultSet rs = jdbcTemplate.query(sql);
             while (rs.next()) {
                 data += "<tr>";
-                for (int i = 1; i <= 11; i++) {
+                for (int i = 1; i <= 5; i++) {
                     data += "<td>" + rs.getString(i) + "</td>";
                 }
-                int id = rs.getInt("order_id");
-                data += "<td><a href=./delete?id=" + id + ">Удалить</a></td>";
-                data += "<td><a href=./update?id=" + id + ">Редактировать</a></td>";
+                int id = rs.getInt("customer_id");
+                data += "<td><a href=./delete_customer?id=" + id + ">Удалить</a></td>";
+                data += "<td><a href=./update_customer?id=" + id + ">Редактировать</a></td>";
                 data += "</tr>";
             }
         } catch (SQLException e) {
@@ -74,11 +71,11 @@ public class AllData extends HttpServlet {
         }
         String reply = "<html>\n" +
                 "<body>\n" +
-                "    <h1 align=center>Все данные</h1>\n" +
+                "    <h1 align=center>Все покупатели</h1>\n" +
                 "    <table border=2  align=center>\n"  +
                 header + data +
                 "    </table>" +
-                "  <p align=center > <a href=./add>Добавить заказ</a>" +
+                "  <p align=center > <a href=./add_customer>Добавить нового покупателя</a>" +
                 "</body>\n" +
                 "</html>";
         response.getOutputStream().write( reply.getBytes("UTF-8") );
